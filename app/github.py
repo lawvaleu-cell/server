@@ -106,41 +106,56 @@ def put_file(path, content_bytes, message, sha=None):
     raise GitHubError(f"unexpected status {resp.status_code} writing {path}: {resp.text[:300]}")
 
 
-def update_library_with_retry(build_reference_fn):
+def read_library():
     """
-    Safely append a new reference to library.json, handling the case
-    where another request modifies the file concurrently.
+    Fetch and parse the current library.json.
+    Returns (library_list, sha). sha is None if the file doesn't exist yet.
+    Raises GitHubError on failure or if the file isn't a JSON array.
+    """
+    content, sha = get_file(config.LIBRARY_PATH)
+    if content is None:
+        return [], None
+    try:
+        library = json.loads(content)
+    except json.JSONDecodeError as exc:
+        raise GitHubError(f"library.json is not valid JSON: {exc}")
+    if not isinstance(library, list):
+        raise GitHubError("library.json does not contain a JSON array")
+    return library, sha
 
-    `build_reference_fn(existing_library: list) -> dict` must return the
-    new reference dict to append (it receives the freshly-read library
-    list so it can compute a unique ID from it).
 
-    Returns the reference dict that was successfully committed.
+def append_reference_with_retry(reference):
+    """
+    Append an already-built `reference` dict to library.json, handling the
+    case where another request/process modifies the file concurrently.
+
+    Important: the reference (its ID, and any file paths already uploaded
+    for it) must be fully decided BEFORE calling this. This function only
+    retries the read-modify-write of library.json itself — it never
+    regenerates the ID or re-uploads files, so a retry can never orphan
+    an already-uploaded PDF/cover under an abandoned ID.
+
+    Existing entries are always preserved: each attempt re-reads the
+    latest library.json and appends to it, never replaces it.
+
+    Returns the reference dict once committed.
     Raises GitHubError if it fails after all retries.
     """
     last_error = None
 
     for _attempt in range(config.GITHUB_MAX_RETRIES):
-        content, sha = get_file(config.LIBRARY_PATH)
+        library, sha = read_library()
 
-        if content is None:
-            library = []
-        else:
-            try:
-                library = json.loads(content)
-                if not isinstance(library, list):
-                    raise GitHubError("library.json does not contain a JSON array")
-            except json.JSONDecodeError as exc:
-                raise GitHubError(f"library.json is not valid JSON: {exc}")
+        # Idempotency guard: if this exact ID is already present (e.g. a
+        # previous attempt's write actually succeeded but we didn't get
+        # to see the response, or a rare cross-process race slipped past
+        # the in-process lock), don't add a duplicate entry.
+        if any(isinstance(item, dict) and item.get("id") == reference.get("id") for item in library):
+            return reference
 
-        new_reference = build_reference_fn(library)
-
-        # Never drop existing references: always append to the list we
-        # just read, never replace it.
-        updated_library = library + [new_reference]
+        updated_library = library + [reference]
         new_content = json.dumps(updated_library, ensure_ascii=False, indent=2).encode("utf-8")
-
-        message = f"Add new library reference {new_reference.get('id')}"
+        message = f"Add new library reference {reference.get('id')}"
 
         try:
             success = put_file(config.LIBRARY_PATH, new_content, message, sha=sha)
@@ -149,7 +164,7 @@ def update_library_with_retry(build_reference_fn):
             continue
 
         if success:
-            return new_reference
+            return reference
 
         # Conflict: someone else updated library.json between our GET and
         # PUT. Small backoff, then re-read and retry the merge.
@@ -157,6 +172,33 @@ def update_library_with_retry(build_reference_fn):
         time.sleep(0.3)
 
     raise GitHubError(f"failed to update library.json after retries: {last_error}")
+
+
+def delete_file_best_effort(path):
+    """
+    Best-effort cleanup of an orphaned upload (e.g. a PDF that was
+    committed but its sibling cover upload, or the library.json update,
+    then failed). Never raises — failures here are logged by the caller,
+    not surfaced to the user, since the user-facing operation has already
+    failed for its own reason.
+    """
+    try:
+        _content, sha = get_file(path)
+        if not sha:
+            return
+        payload = {
+            "message": f"Remove orphaned upload {path}",
+            "sha": sha,
+            "branch": config.GITHUB_BRANCH,
+        }
+        requests.delete(
+            _contents_url(path),
+            headers=_headers(),
+            data=json.dumps(payload),
+            timeout=config.GITHUB_REQUEST_TIMEOUT,
+        )
+    except Exception:
+        pass
 
 
 def upload_file(path, file_bytes, message):

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" role="img" aria-labelledby="t">
+<title id="t">Resto Manager</title>
+<defs>
+<linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#0A222B"/>
+<stop offset="1" stop-color="#0F323F"/>
+</linearGradient>
+</defs>
+<rect width="480" height="320" fill="url(#bg3)"/>
+<g stroke="#12414F" stroke-width="1.5" fill="none" opacity="0.8">
+<path d="M0 250 H140 V210 H210 V250 H480"/>
+<path d="M0 55 H80 V30 H480"/>
+<circle cx="140" cy="250" r="3" fill="#12414F" stroke="none"/>
+<circle cx="210" cy="210" r="3" fill="#12414F" stroke="none"/>
+<circle cx="80" cy="30" r="3" fill="#12414F" stroke="none"/>
+</g>
+<circle cx="240" cy="150" r="64" fill="none" stroke="#00DEE3" stroke-width="1.5" opacity="0.35"/>
+<g stroke="#00DEE3" stroke-width="5" stroke-linecap="round" fill="none">
+<line x1="212" y1="118" x2="212" y2="182"/>
+<line x1="200" y1="118" x2="200" y2="140"/>
+<line x1="212" y1="118" x2="212" y2="140"/>
+<line x1="224" y1="118" x2="224" y2="140"/>
+<path d="M200 118 V140 C200 148 224 148 224 140 V118"/>
+<path d="M268 118 V182"/>
+<path d="M268 118 C282 118 282 150 268 150"/>
+</g>
+<text x="24" y="292" font-family="'Space Grotesk',Arial,sans-serif" font-size="15" fill="#7FDDE0" letter-spacing="2">RESTAURANT</text>
+</svg>

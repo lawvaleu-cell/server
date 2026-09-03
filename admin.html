@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="admin.meta.title">Admin local — Bibliothèque juridique — RA9MANA DZ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="assets/brand/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main" data-i18n="skip">Aller au contenu</a>
+
+<header class="site-header" id="site-header">
+  <div class="container">
+    <a class="brand" href="index.html" aria-label="RA9MANA DZ">
+      <img src="assets/brand/logo.png" alt="RA9MANA DZ">
+    </a>
+    <nav class="nav-links" aria-label="Navigation principale">
+      <a href="library.html" data-i18n="nav.library">Bibliothèque juridique</a>
+      <a href="submit.html" data-i18n="submit.breadcrumb">Contribuer</a>
+    </nav>
+    <div class="nav-right">
+      <div class="lang-switch" role="group" aria-label="Choix de la langue">
+        <button type="button" data-lang-btn="fr" aria-pressed="true">FR</button>
+        <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang-btn="ar" aria-pressed="false">العربية</button>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Ouvrir le menu" data-i18n-aria="nav.menuOpen" aria-expanded="false" aria-controls="mobile-menu">
+        <svg><use href="assets/icons/icons.svg#icon-menu"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mobile-menu-top">
+    <img src="assets/brand/logo.png" alt="RA9MANA DZ">
+    <button id="mobile-menu-close" aria-label="Fermer le menu" data-i18n-aria="nav.menuClose">
+      <svg><use href="assets/icons/icons.svg#icon-close"></use></svg>
+    </button>
+  </div>
+  <nav>
+    <a href="library.html" data-i18n="nav.library">Bibliothèque juridique</a>
+    <a href="submit.html" data-i18n="submit.breadcrumb">Contribuer</a>
+  </nav>
+</div>
+
+<main id="main">
+  <section class="page-hero" style="padding-bottom: var(--space-3)">
+    <div class="container">
+      <div class="eyebrow" data-i18n="admin.eyebrow">Admin local</div>
+      <h1 data-i18n="admin.title">Admin local de la Bibliothèque juridique</h1>
+      <p class="lead" data-i18n="admin.subtitle">Préparez et organisez les fichiers de la bibliothèque avant de les pousser sur GitHub. Rien de tout ceci n'est envoyé à un serveur.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="container">
+      <div class="admin-banner">
+        <svg><use href="assets/icons/icons.svg#icon-alert"></use></svg>
+        <span data-i18n="admin.warningNotBackend">Cette page fonctionne entièrement dans votre navigateur : elle ne modifie aucun fichier du dépôt automatiquement. Utilisez le bouton d'export pour générer les fichiers, puis copiez-les vous-même dans le projet.</span>
+      </div>
+
+      <div class="admin-tabs">
+        <button type="button" class="admin-tab is-active" data-tab="add" data-i18n="admin.tabAdd">Ajouter un référence</button>
+        <button type="button" class="admin-tab" data-tab="pending" data-i18n="admin.tabPending">En attente <span id="pending-count-badge"></span></button>
+        <button type="button" class="admin-tab" data-tab="export" data-i18n="admin.tabExport">Exporter</button>
+      </div>
+
+      <!-- ===================== ADD REFERENCE ===================== -->
+      <div class="admin-panel is-active" id="panel-add">
+        <div class="form-success" id="admin-form-success">
+          <svg><use href="assets/icons/icons.svg#icon-check"></use></svg>
+          <div>
+            <h4 data-i18n="admin.addSuccess.title">Référence ajoutée à la liste d'attente</h4>
+            <p data-i18n="admin.addSuccess.desc">Retrouvez-la dans l'onglet « En attente », puis exportez le tout une fois terminé.</p>
+          </div>
+        </div>
+
+        <form id="admin-form" novalidate>
+          <div class="form-section">
+            <h3><svg><use href="assets/icons/icons.svg#icon-book"></use></svg><span data-i18n="submit.sectionBasicInfo">Informations principales</span></h3>
+
+            <div class="form-field">
+              <label for="a-title" class="field-required" data-i18n="submit.fields.titleLabel">Titre du document</label>
+              <input id="a-title" name="title" type="text" required>
+              <span class="field-error"></span>
+            </div>
+
+            <div class="form-grid2">
+              <div class="form-field">
+                <label for="a-author" class="field-required" data-i18n="submit.fields.authorLabel">Auteur</label>
+                <input id="a-author" name="author" type="text" required>
+                <span class="field-error"></span>
+              </div>
+              <div class="form-field">
+                <label for="a-type" class="field-required" data-i18n="submit.fields.typeLabel">Type de référence</label>
+                <select id="a-type" name="type" required></select>
+                <span class="field-error"></span>
+              </div>
+            </div>
+
+            <div class="form-grid3">
+              <div class="form-field">
+                <label for="a-category" class="field-required" data-i18n="submit.fields.categoryLabel">Domaine juridique</label>
+                <input id="a-category" name="category" type="text" required>
+                <span class="field-error"></span>
+              </div>
+              <div class="form-field">
+                <label for="a-year" class="field-required" data-i18n="submit.fields.yearLabel">Année</label>
+                <input id="a-year" name="year" type="number" min="1900" max="2100" required>
+                <span class="field-error"></span>
+              </div>
+              <div class="form-field">
+                <label for="a-language" class="field-required" data-i18n="submit.fields.languageLabel">Langue</label>
+                <select id="a-language" name="language" required></select>
+                <span class="field-error"></span>
+              </div>
+            </div>
+
+            <div class="form-grid2">
+              <div class="form-field">
+                <label for="a-country" data-i18n="submit.fields.countryLabel">Pays</label>
+                <input id="a-country" name="country" type="text">
+              </div>
+              <div class="form-field">
+                <label for="a-university" data-i18n="submit.fields.universityLabel">Université / Institution</label>
+                <input id="a-university" name="university" type="text">
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="a-description" class="field-required" data-i18n="submit.fields.descriptionLabel">Description</label>
+              <textarea id="a-description" name="description" rows="3" required></textarea>
+              <span class="field-error"></span>
+            </div>
+
+            <div class="form-field">
+              <label for="a-keywords" data-i18n="submit.fields.keywordsLabel">Mots-clés</label>
+              <input id="a-keywords" name="keywords" type="text" data-i18n-placeholder="submit.fields.keywordsPlaceholder">
+            </div>
+
+            <div class="form-field">
+              <label for="a-status" data-i18n="admin.statusLabel">Statut</label>
+              <select id="a-status" name="status">
+                <option value="published" data-i18n="admin.statusPublished">Publié</option>
+                <option value="draft" data-i18n="admin.statusDraft">Brouillon</option>
+                <option value="pending" data-i18n="admin.statusPendingReview">En attente de révision</option>
+                <option value="rejected" data-i18n="admin.statusRejected">Rejeté</option>
+              </select>
+              <span class="field-hint" data-i18n="admin.statusHint">Seules les références « Publié » apparaissent sur la page publique de la bibliothèque.</span>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3><svg><use href="assets/icons/icons.svg#icon-upload"></use></svg><span data-i18n="submit.sectionFiles">Fichiers</span></h3>
+            <div class="form-field" id="field-cover">
+              <label data-i18n="submit.fields.coverLabel">Image de couverture</label>
+              <div class="dropzone" id="a-cover-dropzone" tabindex="0">
+                <img class="dropzone-preview" id="a-cover-preview" style="display:none">
+                <svg><use href="assets/icons/icons.svg#icon-upload"></use></svg>
+                <p data-i18n="submit.fields.coverHint">Cliquez ou glissez une image (JPG, PNG, WebP — 5 Mo max)</p>
+                <div class="dropzone-filename" id="a-cover-filename"></div>
+                <input type="file" id="a-cover-input" accept="image/jpeg,image/png,image/webp">
+              </div>
+              <span class="field-error"></span>
+            </div>
+            <div class="form-field" id="field-pdf">
+              <label class="field-required" data-i18n="submit.fields.pdfLabel">Fichier PDF</label>
+              <div class="dropzone" id="a-pdf-dropzone" tabindex="0">
+                <svg><use href="assets/icons/icons.svg#icon-upload"></use></svg>
+                <p data-i18n="submit.fields.pdfHint">Cliquez ou glissez un fichier PDF (25 Mo max)</p>
+                <div class="dropzone-filename" id="a-pdf-filename"></div>
+                <input type="file" id="a-pdf-input" accept="application/pdf,.pdf">
+              </div>
+              <span class="field-error"></span>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3><svg><use href="assets/icons/icons.svg#icon-info"></use></svg><span data-i18n="submit.sectionAdditional">Informations complémentaires</span></h3>
+            <div class="form-grid2">
+              <div class="form-field">
+                <label for="a-source" data-i18n="submit.fields.sourceLabel">Source du document</label>
+                <input id="a-source" name="source" type="text">
+              </div>
+              <div class="form-field">
+                <label for="a-external" data-i18n="submit.fields.externalLinkLabel">Lien externe</label>
+                <input id="a-external" name="externalLink" type="url">
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="a-notes" data-i18n="submit.fields.notesLabel">Remarques</label>
+              <textarea id="a-notes" name="notes" rows="2"></textarea>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3><svg><use href="assets/icons/icons.svg#icon-info"></use></svg><span data-i18n="submit.sectionContributor">Informations sur le contributeur</span></h3>
+            <div class="optional-note">
+              <svg><use href="assets/icons/icons.svg#icon-info"></use></svg>
+              <span data-i18n="submit.contributor.optionalNote">Cette section est entièrement facultative. Vous choisissez ce qui sera visible publiquement.</span>
+            </div>
+            <div class="form-grid2">
+              <div class="form-field">
+                <label for="a-c-name" data-i18n="submit.contributor.nameLabel">Nom complet</label>
+                <input id="a-c-name" name="contributorName" type="text">
+              </div>
+              <div class="form-field">
+                <label for="a-c-email" data-i18n="submit.contributor.emailLabel">E-mail</label>
+                <input id="a-c-email" name="contributorEmail" type="email">
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="a-c-bio" data-i18n="submit.contributor.bioLabel">Courte biographie</label>
+              <textarea id="a-c-bio" name="contributorBio" rows="2"></textarea>
+            </div>
+            <div class="form-field" id="field-contributor-photo">
+              <label data-i18n="submit.contributor.photoLabel">Photo</label>
+              <div class="dropzone" id="a-photo-dropzone" tabindex="0">
+                <img class="dropzone-preview" id="a-photo-preview" style="display:none">
+                <svg><use href="assets/icons/icons.svg#icon-upload"></use></svg>
+                <p data-i18n="submit.fields.coverHint">Cliquez ou glissez une image (JPG, PNG, WebP — 5 Mo max)</p>
+                <div class="dropzone-filename" id="a-photo-filename"></div>
+                <input type="file" id="a-photo-input" accept="image/jpeg,image/png,image/webp">
+              </div>
+              <span class="field-error"></span>
+            </div>
+            <div class="form-grid3">
+              <div class="form-field"><label for="a-c-website" data-i18n="submit.contributor.websiteLabel">Site web</label><input id="a-c-website" name="linkWebsite" type="url"></div>
+              <div class="form-field"><label for="a-c-linkedin" data-i18n="submit.contributor.linkedinLabel">LinkedIn</label><input id="a-c-linkedin" name="linkLinkedin" type="url"></div>
+              <div class="form-field"><label for="a-c-facebook" data-i18n="submit.contributor.facebookLabel">Facebook</label><input id="a-c-facebook" name="linkFacebook" type="url"></div>
+              <div class="form-field"><label for="a-c-instagram" data-i18n="submit.contributor.instagramLabel">Instagram</label><input id="a-c-instagram" name="linkInstagram" type="url"></div>
+              <div class="form-field"><label for="a-c-x" data-i18n="submit.contributor.xLabel">X / Twitter</label><input id="a-c-x" name="linkX" type="url"></div>
+              <div class="form-field"><label for="a-c-github" data-i18n="submit.contributor.githubLabel">GitHub</label><input id="a-c-github" name="linkGithub" type="url"></div>
+            </div>
+            <div class="visibility-options">
+              <label class="check-field"><input type="checkbox" name="showName"><span data-i18n="submit.contributor.showName">Afficher mon nom</span></label>
+              <label class="check-field"><input type="checkbox" name="showPhoto"><span data-i18n="submit.contributor.showPhoto">Afficher ma photo</span></label>
+              <label class="check-field"><input type="checkbox" name="showBio"><span data-i18n="submit.contributor.showBio">Afficher ma biographie</span></label>
+              <label class="check-field"><input type="checkbox" name="showLinks"><span data-i18n="submit.contributor.showLinks">Afficher mes liens</span></label>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">
+              <svg><use href="assets/icons/icons.svg#icon-plus"></use></svg>
+              <span data-i18n="admin.addReferenceBtn">Ajouter à la liste d'attente</span>
+            </button>
+            <button class="btn btn-ghost" type="reset" id="admin-reset-btn">
+              <span data-i18n="admin.resetForm">Vider le formulaire</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ===================== PENDING LIST ===================== -->
+      <div class="admin-panel" id="panel-pending">
+        <div class="admin-table-wrap">
+          <table class="admin-table" id="pending-table">
+            <thead>
+              <tr>
+                <th data-i18n="admin.colTitle">Titre</th>
+                <th data-i18n="admin.colType">Type</th>
+                <th data-i18n="admin.colYear">Année</th>
+                <th data-i18n="admin.colStatus">Statut</th>
+                <th data-i18n="admin.colActions">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="pending-tbody"></tbody>
+          </table>
+          <div class="admin-empty" id="pending-empty" data-i18n="admin.pendingEmpty">Aucune référence en attente pour le moment. Ajoutez-en une depuis l'onglet précédent.</div>
+        </div>
+      </div>
+
+      <!-- ===================== EXPORT ===================== -->
+      <div class="admin-panel" id="panel-export">
+        <div class="export-panel">
+          <h3 style="font-family:var(--font-display); font-size:1.2rem; margin-bottom:8px" data-i18n="admin.exportTitle">Exporter la bibliothèque</h3>
+          <p class="form-section-desc" data-i18n="admin.exportDesc" style="margin-top:0">Génère un fichier .zip contenant library.json (fusionné avec les références existantes), ainsi que les fichiers PDF et couvertures, prêts à copier dans le projet.</p>
+          <button type="button" class="btn btn-primary" id="export-btn">
+            <svg><use href="assets/icons/icons.svg#icon-download"></use></svg>
+            <span data-i18n="admin.exportBtn">Export Library</span>
+          </button>
+
+          <ol class="export-steps">
+            <li data-i18n="admin.exportStep1">Décompressez le fichier téléchargé.</li>
+            <li data-i18n="admin.exportStep2">Copiez son contenu (data/, books/, covers/) dans le dossier du projet, en remplaçant data/library.json.</li>
+            <li data-i18n="admin.exportStep3">Exécutez les commandes ci-dessous puis poussez sur GitHub.</li>
+          </ol>
+          <div class="code-block">
+git add .
+git commit -m "Add new library references"
+git push
+            <button type="button" class="code-copy" id="copy-git-commands" data-i18n="admin.copyCommands">Copier</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:1px solid var(--on-dark-line); padding-block: var(--space-3)">
+      <span>© <span id="footer-year">2026</span> RA9MANA DZ. <span data-i18n="footer.rights">Tous droits réservés.</span></span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" aria-live="polite"><div class="toast-inner"></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="js/products.js"></script>
+<script src="js/locales.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/library-types.js"></script>
+<script src="js/library-data.js"></script>
+<script src="js/library-common.js"></script>
+<script src="js/reference-form.js"></script>
+<script src="js/simple-header.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

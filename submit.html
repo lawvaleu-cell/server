@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="submit.meta.title">Contribuer à la Bibliothèque juridique — RA9MANA DZ</title>
+<meta name="description" content="Partagez vos recherches, mémoires et documents juridiques pour enrichir la Bibliothèque juridique RA9MANA DZ.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.ra9mana.dz/submit.html">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Contribuer à la Bibliothèque juridique — RA9MANA DZ">
+<meta property="og:image" content="assets/brand/logo.png">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/png" href="assets/brand/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main" data-i18n="skip">Aller au contenu</a>
+
+<!-- =========================================================
+     HEADER (identical structure to index.html)
+========================================================== -->
+<header class="site-header" id="site-header">
+  <div class="container">
+    <a class="brand" href="index.html" aria-label="RA9MANA DZ">
+      <img src="assets/brand/logo.png" alt="RA9MANA DZ">
+    </a>
+
+    <nav class="nav-links" aria-label="Navigation principale">
+      <a href="index.html#solutions" data-i18n="nav.solutions">Solutions</a>
+      <a href="index.html#products" data-i18n="nav.produits">Produits</a>
+      <a href="library.html" data-i18n="nav.library">Bibliothèque juridique</a>
+      <a href="index.html#contact" data-i18n="nav.contact">Contact</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="lang-switch" role="group" aria-label="Choix de la langue">
+        <button type="button" data-lang-btn="fr" aria-pressed="true">FR</button>
+        <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang-btn="ar" aria-pressed="false">العربية</button>
+      </div>
+      <a class="btn btn-primary btn-sm nav-cta" href="library.html" data-i18n="nav.library">Bibliothèque juridique</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Ouvrir le menu" data-i18n-aria="nav.menuOpen" aria-expanded="false" aria-controls="mobile-menu">
+        <svg><use href="assets/icons/icons.svg#icon-menu"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mobile-menu-top">
+    <img src="assets/brand/logo.png" alt="RA9MANA DZ">
+    <button id="mobile-menu-close" aria-label="Fermer le menu" data-i18n-aria="nav.menuClose">
+      <svg><use href="assets/icons/icons.svg#icon-close"></use></svg>
+    </button>
+  </div>
+  <nav>
+    <a href="index.html#solutions" data-i18n="nav.solutions">Solutions</a>
+    <a href="index.html#products" data-i18n="nav.produits">Produits</a>
+    <a href="library.html" data-i18n="nav.library">Bibliothèque juridique</a>
+    <a href="index.html#contact" data-i18n="nav.contact">Contact</a>
+  </nav>
+  <div class="mobile-menu-foot">
+    <div class="lang-switch" role="group" aria-label="Choix de la langue">
+      <button type="button" data-lang-btn="fr" aria-pressed="true">FR</button>
+      <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang-btn="ar" aria-pressed="false">العربية</button>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-breadcrumb"><a href="library.html" data-i18n="library.title">Bibliothèque juridique</a><span>/</span><span data-i18n="submit.breadcrumb">Contribuer</span></div>
+      <div class="eyebrow" data-i18n="submit.eyebrow">Enrichir la bibliothèque</div>
+      <h1 data-i18n="submit.title">Contribuez à la Bibliothèque juridique</h1>
+      <p class="lead" data-i18n="submit.subtitle">Chercheurs, étudiants et professionnels du droit peuvent partager leurs recherches, mémoires, ouvrages et documents juridiques pour enrichir ce fonds de connaissance commun.</p>
+    </div>
+  </section>
+
+  <section style="padding-block: 0 var(--space-6)">
+    <div class="container" style="max-width: 820px">
+
+      <div class="form-success" id="form-success">
+        <svg><use href="assets/icons/icons.svg#icon-check"></use></svg>
+        <div>
+          <h4 data-i18n="submit.success.title">Votre contribution a été envoyée</h4>
+          <p data-i18n="submit.success.desc">Merci ! Votre référence, avec les fichiers joints, a bien été reçue. Elle sera examinée avant publication dans la bibliothèque.</p>
+        </div>
+      </div>
+
+      <form id="submit-form" novalidate>
+
+        <div class="form-section">
+          <h3><svg><use href="assets/icons/icons.svg#icon-book"></use></svg><span data-i18n="submit.sectionBasicInfo">Informations principales</span></h3>
+
+          <div class="form-field">
+            <label for="s-title" class="field-required" data-i18n="submit.fields.titleLabel">Titre du document</label>
+            <input id="s-title" name="title" type="text" required data-i18n-placeholder="submit.fields.titlePlaceholder" placeholder="Titre complet du document">
+            <span class="field-error"></span>
+          </div>
+
+          <div class="form-grid2">
+            <div class="form-field">
+              <label for="s-author" class="field-required" data-i18n="submit.fields.authorLabel">Auteur</label>
+              <input id="s-author" name="author" type="text" required data-i18n-placeholder="submit.fields.authorPlaceholder" placeholder="Nom de l'auteur">
+              <span class="field-error"></span>
+            </div>
+            <div class="form-field">
+              <label for="s-type" class="field-required" data-i18n="submit.fields.typeLabel">Type de référence</label>
+              <select id="s-type" name="type" required></select>
+              <span class="field-error"></span>
+            </div>
+          </div>
+
+          <div class="form-grid3">
+            <div class="form-field">
+              <label for="s-category" class="field-required" data-i18n="submit.fields.categoryLabel">Domaine juridique</label>
+              <input id="s-category" name="category" type="text" required data-i18n-placeholder="submit.fields.categoryPlaceholder" placeholder="Ex. Droit numérique">
+              <span class="field-error"></span>
+            </div>
+            <div class="form-field">
+              <label for="s-year" class="field-required" data-i18n="submit.fields.yearLabel">Année</label>
+              <input id="s-year" name="year" type="number" min="1900" max="2100" required placeholder="2026">
+              <span class="field-error"></span>
+            </div>
+            <div class="form-field">
+              <label for="s-language" class="field-required" data-i18n="submit.fields.languageLabel">Langue</label>
+              <select id="s-language" name="language" required></select>
+              <span class="field-error"></span>
+            </div>
+          </div>
+
+          <div class="form-grid2">
+            <div class="form-field">
+              <label for="s-country" data-i18n="submit.fields.countryLabel">Pays</label>
+              <input id="s-country" name="country" type="text" data-i18n-placeholder="submit.fields.countryPlaceholder" placeholder="Algérie">
+            </div>
+            <div class="form-field">
+              <label for="s-university" data-i18n="submit.fields.universityLabel">Université / Institution</label>
+              <input id="s-university" name="university" type="text" data-i18n-placeholder="submit.fields.universityPlaceholder" placeholder="Université ...">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="s-description" class="field-required" data-i18n="submit.fields.descriptionLabel">Description</label>
+            <textarea id="s-description" name="description" rows="4" required data-i18n-placeholder="submit.fields.descriptionPlaceholder" placeholder="Résumé du contenu et de son apport"></textarea>
+            <span class="field-error"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="s-keywords" data-i18n="submit.fields.keywordsLabel">Mots-clés</label>
+            <input id="s-keywords" name="keywords" type="text" data-i18n-placeholder="submit.fields.keywordsPlaceholder" placeholder="séparés par des virgules">
+            <span class="field-hint" data-i18n="submit.fields.keywordsHint">Séparez chaque mot-clé par une virgule.</span>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3><svg><use href="assets/icons/icons.svg#icon-upload"></use></svg><span data-i18n="submit.sectionFiles">Fichiers</span></h3>
+
+          <div class="form-field" id="field-cover">
+            <label data-i18n="submit.fields.coverLabel">Image de couverture</label>
+            <div class="dropzone" id="cover-dropzone" tabindex="0">
+              <img class="dropzone-preview" id="cover-preview" style="display:none">
+              <svg><use href="assets/icons/icons.svg#icon-upload"></use></svg>
+              <p data-i18n="submit.fields.coverHint">Cliquez ou glissez une image (JPG, PNG, WebP — 5 Mo max)</p>
+              <div class="dropzone-filename" id="cover-filename"></div>
+              <input type="file" id="cover-input" accept="image/jpeg,image/png,image/webp">
+            </div>
+            <span class="field-error"></span>
+          </div>
+
+          <div class="form-field" id="field-pdf">
+            <label class="field-required" data-i18n="submit.fields.pdfLabel">Fichier PDF</label>
+            <div class="dropzone" id="pdf-dropzone" tabindex="0">
+              <svg><use href="assets/icons/icons.svg#icon-upload"></use></svg>
+              <p data-i18n="submit.fields.pdfHint">Cliquez ou glissez un fichier PDF (25 Mo max)</p>
+              <div class="dropzone-filename" id="pdf-filename"></div>
+              <input type="file" id="pdf-input" accept="application/pdf,.pdf">
+            </div>
+            <span class="field-error"></span>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3><svg><use href="assets/icons/icons.svg#icon-info"></use></svg><span data-i18n="submit.sectionAdditional">Informations complémentaires</span></h3>
+          <div class="form-grid2">
+            <div class="form-field">
+              <label for="s-source" data-i18n="submit.fields.sourceLabel">Source du document</label>
+              <input id="s-source" name="source" type="text" data-i18n-placeholder="submit.fields.sourcePlaceholder" placeholder="Ex. Journal officiel">
+            </div>
+            <div class="form-field">
+              <label for="s-external" data-i18n="submit.fields.externalLinkLabel">Lien externe</label>
+              <input id="s-external" name="externalLink" type="url" data-i18n-placeholder="submit.fields.externalLinkPlaceholder" placeholder="https://...">
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="s-notes" data-i18n="submit.fields.notesLabel">Remarques</label>
+            <textarea id="s-notes" name="notes" rows="2"></textarea>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3><svg><use href="assets/icons/icons.svg#icon-info"></use></svg><span data-i18n="submit.sectionContributor">Informations sur le contributeur</span></h3>
+          <div class="optional-note">
+            <svg><use href="assets/icons/icons.svg#icon-info"></use></svg>
+            <span data-i18n="submit.contributor.optionalNote">Cette section est entièrement facultative. Vous choisissez ce qui sera visible publiquement.</span>
+          </div>
+
+          <div class="form-grid2">
+            <div class="form-field">
+              <label for="s-c-name" data-i18n="submit.contributor.nameLabel">Nom complet</label>
+              <input id="s-c-name" name="contributorName" type="text">
+            </div>
+            <div class="form-field">
+              <label for="s-c-email" data-i18n="submit.contributor.emailLabel">E-mail</label>
+              <input id="s-c-email" name="contributorEmail" type="email">
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="s-c-bio" data-i18n="submit.contributor.bioLabel">Courte biographie</label>
+            <textarea id="s-c-bio" name="contributorBio" rows="2"></textarea>
+          </div>
+
+          <div class="form-field" id="field-contributor-photo">
+            <label data-i18n="submit.contributor.photoLabel">Photo</label>
+            <div class="dropzone" id="photo-dropzone" tabindex="0">
+              <img class="dropzone-preview" id="photo-preview" style="display:none">
+              <svg><use href="assets/icons/icons.svg#icon-upload"></use></svg>
+              <p data-i18n="submit.fields.coverHint">Cliquez ou glissez une image (JPG, PNG, WebP — 5 Mo max)</p>
+              <div class="dropzone-filename" id="photo-filename"></div>
+              <input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp">
+            </div>
+            <span class="field-error"></span>
+          </div>
+
+          <div class="form-grid3">
+            <div class="form-field">
+              <label for="s-c-website" data-i18n="submit.contributor.websiteLabel">Site web</label>
+              <input id="s-c-website" name="linkWebsite" type="url">
+            </div>
+            <div class="form-field">
+              <label for="s-c-linkedin" data-i18n="submit.contributor.linkedinLabel">LinkedIn</label>
+              <input id="s-c-linkedin" name="linkLinkedin" type="url">
+            </div>
+            <div class="form-field">
+              <label for="s-c-facebook" data-i18n="submit.contributor.facebookLabel">Facebook</label>
+              <input id="s-c-facebook" name="linkFacebook" type="url">
+            </div>
+            <div class="form-field">
+              <label for="s-c-instagram" data-i18n="submit.contributor.instagramLabel">Instagram</label>
+              <input id="s-c-instagram" name="linkInstagram" type="url">
+            </div>
+            <div class="form-field">
+              <label for="s-c-x" data-i18n="submit.contributor.xLabel">X / Twitter</label>
+              <input id="s-c-x" name="linkX" type="url">
+            </div>
+            <div class="form-field">
+              <label for="s-c-github" data-i18n="submit.contributor.githubLabel">GitHub</label>
+              <input id="s-c-github" name="linkGithub" type="url">
+            </div>
+          </div>
+
+          <h4 style="font-size:0.85rem; margin: var(--space-2) 0 8px; color: var(--c-text)" data-i18n="submit.contributor.visibilityTitle">Que souhaitez-vous rendre public ?</h4>
+          <div class="visibility-options">
+            <label class="check-field"><input type="checkbox" name="showName"><span data-i18n="submit.contributor.showName">Afficher mon nom</span></label>
+            <label class="check-field"><input type="checkbox" name="showPhoto"><span data-i18n="submit.contributor.showPhoto">Afficher ma photo</span></label>
+            <label class="check-field"><input type="checkbox" name="showBio"><span data-i18n="submit.contributor.showBio">Afficher ma biographie</span></label>
+            <label class="check-field"><input type="checkbox" name="showLinks"><span data-i18n="submit.contributor.showLinks">Afficher mes liens</span></label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">
+            <span data-i18n="submit.submitBtn">Préparer ma contribution</span>
+            <svg><use href="assets/icons/icons.svg#icon-arrow"></use></svg>
+          </button>
+        </div>
+        <p class="form-note" data-i18n="submit.packageInstructions">En cliquant sur « Envoyer la référence », votre contribution (y compris vos fichiers) est envoyée directement pour vérification. Elle sera examinée avant publication dans la bibliothèque.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/brand/logo.png" alt="RA9MANA DZ">
+        <p data-i18n="footer.tagline">Solutions digitales pour des besoins réels.</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.colSolutions">Solutions</h4>
+        <ul>
+          <li><a href="index.html#solutions" data-i18n="ecosystem.categoryMedical">Médical</a></li>
+          <li><a href="index.html#solutions" data-i18n="ecosystem.categoryEducation">Éducation</a></li>
+          <li><a href="library.html" data-i18n="nav.library">Bibliothèque juridique</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.colCompany">À propos</h4>
+        <ul>
+          <li><a href="index.html#products" data-i18n="footer.colProduct">Produits</a></li>
+          <li><a href="index.html#why" data-i18n="footer.linkAbout">Pourquoi RA9MANA</a></li>
+          <li><a href="index.html#contact" data-i18n="footer.linkContact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.colLang">Langues</h4>
+        <ul>
+          <li><button type="button" data-lang-btn="fr">Français</button></li>
+          <li><button type="button" data-lang-btn="en">English</button></li>
+          <li><button type="button" data-lang-btn="ar">العربية</button></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="footer-year">2026</span> RA9MANA DZ. <span data-i18n="footer.rights">Tous droits réservés.</span></span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" aria-live="polite"><div class="toast-inner"></div></div>
+
+<script src="js/products.js"></script>
+<script src="js/locales.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/library-types.js"></script>
+<script src="js/library-data.js"></script>
+<script src="js/library-common.js"></script>
+<script src="js/reference-form.js"></script>
+<script src="js/simple-header.js"></script>
+<script src="js/submit.js"></script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="library.meta.title">Bibliothèque juridique — RA9MANA DZ</title>
+<meta name="description" content="La Bibliothèque juridique RA9MANA DZ : recherches, mémoires, ouvrages, lois et décisions de justice réunis en un seul endroit.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.ra9mana.dz/library.html">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bibliothèque juridique — RA9MANA DZ">
+<meta property="og:image" content="assets/brand/logo.png">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/png" href="assets/brand/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main" data-i18n="skip">Aller au contenu</a>
+
+<!-- =========================================================
+     HEADER (identical structure to index.html)
+========================================================== -->
+<header class="site-header" id="site-header">
+  <div class="container">
+    <a class="brand" href="index.html" aria-label="RA9MANA DZ">
+      <img src="assets/brand/logo.png" alt="RA9MANA DZ">
+    </a>
+
+    <nav class="nav-links" aria-label="Navigation principale">
+      <a href="index.html#solutions" data-i18n="nav.solutions">Solutions</a>
+      <a href="index.html#products" data-i18n="nav.produits">Produits</a>
+      <a href="library.html" data-i18n="nav.library">Bibliothèque juridique</a>
+      <a href="index.html#contact" data-i18n="nav.contact">Contact</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="lang-switch" role="group" aria-label="Choix de la langue">
+        <button type="button" data-lang-btn="fr" aria-pressed="true">FR</button>
+        <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang-btn="ar" aria-pressed="false">العربية</button>
+      </div>
+      <a class="btn btn-primary btn-sm nav-cta" href="submit.html" data-i18n="library.ctaContribute">Enrichir la bibliothèque</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Ouvrir le menu" data-i18n-aria="nav.menuOpen" aria-expanded="false" aria-controls="mobile-menu">
+        <svg><use href="assets/icons/icons.svg#icon-menu"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mobile-menu-top">
+    <img src="assets/brand/logo.png" alt="RA9MANA DZ">
+    <button id="mobile-menu-close" aria-label="Fermer le menu" data-i18n-aria="nav.menuClose">
+      <svg><use href="assets/icons/icons.svg#icon-close"></use></svg>
+    </button>
+  </div>
+  <nav>
+    <a href="index.html#solutions" data-i18n="nav.solutions">Solutions</a>
+    <a href="index.html#products" data-i18n="nav.produits">Produits</a>
+    <a href="library.html" data-i18n="nav.library">Bibliothèque juridique</a>
+    <a href="index.html#contact" data-i18n="nav.contact">Contact</a>
+  </nav>
+  <div class="mobile-menu-foot">
+    <div class="lang-switch" role="group" aria-label="Choix de la langue">
+      <button type="button" data-lang-btn="fr" aria-pressed="true">FR</button>
+      <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang-btn="ar" aria-pressed="false">العربية</button>
+    </div>
+    <a class="btn btn-on-dark btn-block" href="submit.html" data-i18n="library.ctaContribute">Enrichir la bibliothèque</a>
+  </div>
+</div>
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="eyebrow" data-i18n="library.eyebrow">Bibliothèque juridique</div>
+      <h1 data-i18n="library.title">La Bibliothèque juridique</h1>
+      <p class="lead" data-i18n="library.description">Un fonds de connaissance juridique : recherches, mémoires, ouvrages, lois, décrets et décisions de justice, réunis et organisés en un seul endroit.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="submit.html">
+          <span data-i18n="library.ctaContribute">Enrichir la bibliothèque</span>
+          <svg><use href="assets/icons/icons.svg#icon-arrow"></use></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="library-toolbar">
+    <div class="container">
+      <div class="library-toolbar-row">
+        <div class="library-search">
+          <svg><use href="assets/icons/icons.svg#icon-search"></use></svg>
+          <input type="search" id="library-search-input" data-i18n-placeholder="library.searchPlaceholder" placeholder="Rechercher dans la bibliothèque…">
+        </div>
+        <div class="library-sort">
+          <label for="library-sort-select" data-i18n="library.sort.label">Trier</label>
+          <select id="library-sort-select">
+            <option value="newest" data-i18n="library.sort.newest">Plus récent</option>
+            <option value="oldest" data-i18n="library.sort.oldest">Plus ancien</option>
+            <option value="titleAsc" data-i18n="library.sort.titleAsc">Titre A→Z</option>
+            <option value="titleDesc" data-i18n="library.sort.titleDesc">Titre Z→A</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-ghost btn-sm library-filter-toggle" id="library-filter-toggle">
+          <svg><use href="assets/icons/icons.svg#icon-filter"></use></svg>
+          <span data-i18n="library.filters.toggle">Filtres</span>
+        </button>
+      </div>
+      <div class="library-results-meta" id="library-results-meta"></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <div class="library-body">
+
+        <aside class="library-filters" id="library-filters">
+          <div class="library-filters-close">
+            <button type="button" class="ref-icon-btn" id="library-filters-close-btn" aria-label="Close">
+              <svg><use href="assets/icons/icons.svg#icon-close"></use></svg>
+            </button>
+          </div>
+
+          <h4 data-i18n="library.filters.type">Type de référence</h4>
+          <div class="filter-type-chips" id="filter-type-chips"></div>
+
+          <h4 style="margin-top:var(--space-3)" data-i18n="library.filters.refine">Affiner</h4>
+          <div class="filter-field">
+            <label for="filter-category" data-i18n="library.filters.category">Domaine juridique</label>
+            <select id="filter-category"></select>
+          </div>
+          <div class="filter-field">
+            <label for="filter-author" data-i18n="library.filters.author">Auteur</label>
+            <select id="filter-author"></select>
+          </div>
+          <div class="filter-field">
+            <label for="filter-year" data-i18n="library.filters.year">Année</label>
+            <select id="filter-year"></select>
+          </div>
+          <div class="filter-field">
+            <label for="filter-language" data-i18n="library.filters.language">Langue</label>
+            <select id="filter-language"></select>
+          </div>
+          <div class="filter-field">
+            <label for="filter-university" data-i18n="library.filters.university">Université / Institution</label>
+            <select id="filter-university"></select>
+          </div>
+          <div class="filter-field">
+            <label for="filter-country" data-i18n="library.filters.country">Pays</label>
+            <select id="filter-country"></select>
+          </div>
+
+          <button type="button" class="filter-clear" id="filter-clear">
+            <svg><use href="assets/icons/icons.svg#icon-close"></use></svg>
+            <span data-i18n="library.filters.clearAll">Réinitialiser les filtres</span>
+          </button>
+        </aside>
+
+        <div>
+          <div class="reference-grid" id="reference-grid">
+            <div class="library-state">
+              <svg><use href="assets/icons/icons.svg#icon-book"></use></svg>
+              <h3 data-i18n="library.loading">Chargement de la bibliothèque…</h3>
+            </div>
+          </div>
+          <div class="load-more-wrap" id="load-more-wrap" style="display:none">
+            <button type="button" class="btn btn-ghost" id="load-more-btn">
+              <span data-i18n="library.loadMore">Voir plus de références</span>
+              <svg><use href="assets/icons/icons.svg#icon-arrow"></use></svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="contribute-band reveal">
+      <div class="eyebrow" style="justify-content:center" data-i18n="library.contributeSection.eyebrow">Contribuer</div>
+      <h2 data-i18n="library.contributeSection.title">Contribuez à un fonds de connaissance juridique plus riche.</h2>
+      <p data-i18n="library.contributeSection.desc">Chercheurs, étudiants et passionnés de droit peuvent partager leurs recherches, mémoires, ouvrages et documents juridiques pour enrichir la bibliothèque.</p>
+      <a class="btn btn-primary" href="submit.html">
+        <span data-i18n="library.ctaContribute">Enrichir la bibliothèque</span>
+        <svg><use href="assets/icons/icons.svg#icon-arrow"></use></svg>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/brand/logo.png" alt="RA9MANA DZ">
+        <p data-i18n="footer.tagline">Solutions digitales pour des besoins réels.</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.colSolutions">Solutions</h4>
+        <ul>
+          <li><a href="index.html#solutions" data-i18n="ecosystem.categoryMedical">Médical</a></li>
+          <li><a href="index.html#solutions" data-i18n="ecosystem.categoryEducation">Éducation</a></li>
+          <li><a href="library.html" data-i18n="nav.library">Bibliothèque juridique</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.colCompany">À propos</h4>
+        <ul>
+          <li><a href="index.html#products" data-i18n="footer.colProduct">Produits</a></li>
+          <li><a href="index.html#why" data-i18n="footer.linkAbout">Pourquoi RA9MANA</a></li>
+          <li><a href="index.html#contact" data-i18n="footer.linkContact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.colLang">Langues</h4>
+        <ul>
+          <li><button type="button" data-lang-btn="fr">Français</button></li>
+          <li><button type="button" data-lang-btn="en">English</button></li>
+          <li><button type="button" data-lang-btn="ar">العربية</button></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="footer-year">2026</span> RA9MANA DZ. <span data-i18n="footer.rights">Tous droits réservés.</span></span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" aria-live="polite"><div class="toast-inner"></div></div>
+
+<div class="ref-modal-backdrop" id="ref-modal-backdrop">
+  <div class="ref-modal" id="ref-modal-content" style="position:relative"></div>
+</div>
+
+<script src="js/products.js"></script>
+<script src="js/locales.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/library-types.js"></script>
+<script src="js/library-data.js"></script>
+<script src="js/library-common.js"></script>
+<script src="js/simple-header.js"></script>
+<script src="js/library.js"></script>
+</body>
+</html>

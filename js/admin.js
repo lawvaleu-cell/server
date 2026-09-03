@@ -1,29 +1,16 @@
 (() => {
   "use strict";
 
-  const fileState = { pdf: null, cover: null, contributorPhoto: null };
-  // In-memory map id -> File objects, since File objects cannot be
-  // persisted in localStorage. Drafts metadata lives in localStorage
-  // (via RA9MANA_LIBRARY.getDrafts/addDraft) so the pending list survives
-  // reloads; the actual files only survive for the current browser
-  // session, and are re-attached to the export the moment they're added.
-  const fileRegistry = {};
+  /**
+   * ⚙️ SITE OWNER CONFIG
+   * ------------------------------------------------------------
+   * Same backend endpoint used by the public "Contribute" form
+   * (js/submit.js). No token or secret of any kind belongs here or
+   * anywhere else in this file.
+   */
+  const SUBMIT_ENDPOINT = "https://server-5xab.onrender.com/api/submit-reference";
 
-  /* ---------------------------------------------------------
-     Tabs
-  --------------------------------------------------------- */
-  function initTabs() {
-    const tabs = document.querySelectorAll(".admin-tab");
-    const panels = { add: document.getElementById("panel-add"), pending: document.getElementById("panel-pending"), export: document.getElementById("panel-export") };
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", () => {
-        tabs.forEach((t) => t.classList.remove("is-active"));
-        Object.values(panels).forEach((p) => p.classList.remove("is-active"));
-        tab.classList.add("is-active");
-        panels[tab.getAttribute("data-tab")].classList.add("is-active");
-      });
-    });
-  }
+  const fileState = { pdf: null, cover: null, contributorPhoto: null };
 
   /* ---------------------------------------------------------
      Dropzones
@@ -53,6 +40,23 @@
     fileState.pdf = null; fileState.cover = null; fileState.contributorPhoto = null;
   }
 
+  /**
+   * Builds the multipart/form-data payload sent to the backend.
+   * Keeps the exact `name` attributes already used by the admin form
+   * fields (same field set as submit.html, plus the admin-only
+   * `status` select), then appends the three files under the same
+   * keys the front-end already tracks them by (pdf, cover,
+   * contributorPhoto) — mirrors js/submit.js so both forms stay in
+   * sync with the backend's expected payload.
+   */
+  function buildFormData(form, fileState) {
+    const fd = new FormData(form);
+    if (fileState.pdf) fd.append("pdf", fileState.pdf, fileState.pdf.name);
+    if (fileState.cover) fd.append("cover", fileState.cover, fileState.cover.name);
+    if (fileState.contributorPhoto) fd.append("contributorPhoto", fileState.contributorPhoto, fileState.contributorPhoto.name);
+    return fd;
+  }
+
   /* ---------------------------------------------------------
      Add reference form
   --------------------------------------------------------- */
@@ -76,10 +80,9 @@
       RA9MANA_REF_FORM.populateTypeSelect(typeSel);
       RA9MANA_REF_FORM.populateLanguageSelect(langSel);
       typeSel.value = typeVal; langSel.value = langVal;
-      renderPending();
     });
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const { valid, firstInvalid } = RA9MANA_REF_FORM.validate(form, fileState, { requirePdf: true });
       if (!valid) {
@@ -87,163 +90,45 @@
         return;
       }
 
-      const status = document.getElementById("a-status").value || "published";
-      const entry = RA9MANA_REF_FORM.buildEntry(form, fileState, { status });
-      fileRegistry[entry.id] = entry._files;
-      const stored = { ...entry };
-      delete stored._files;
-      // Keep a lightweight note of which files are attached (names only —
-      // the File blobs themselves stay in fileRegistry, not localStorage).
-      stored._fileNames = {
-        pdf: entry._files.pdf ? entry._files.pdf.name : "",
-        cover: entry._files.cover ? entry._files.cover.name : "",
-        contributorPhoto: entry._files.contributorPhoto ? entry._files.contributorPhoto.name : ""
-      };
-      RA9MANA_LIBRARY.addDraft(stored);
+      const submitBtn = form.querySelector("button[type=submit]");
+      submitBtn.disabled = true;
 
-      form.reset();
-      resetDropzones();
-      document.getElementById("a-status").value = "published";
+      try {
+        const fd = buildFormData(form, fileState);
 
-      document.getElementById("admin-form-success").classList.add("is-visible");
-      setTimeout(() => document.getElementById("admin-form-success").classList.remove("is-visible"), 4000);
+        const res = await fetch(SUBMIT_ENDPOINT, {
+          method: "POST",
+          body: fd
+        });
 
-      renderPending();
-      if (window.RA9MANA_showToast) window.RA9MANA_showToast(RA9MANA_I18N.t("admin.addSuccess.toast") || "Added.");
-    });
-  }
+        let payload = null;
+        try { payload = await res.json(); } catch (parseErr) { payload = null; }
 
-  /* ---------------------------------------------------------
-     Pending table
-  --------------------------------------------------------- */
-  function renderPending() {
-    const drafts = RA9MANA_LIBRARY.getDrafts();
-    const tbody = document.getElementById("pending-tbody");
-    const empty = document.getElementById("pending-empty");
-    const table = document.getElementById("pending-table");
-    const badge = document.getElementById("pending-count-badge");
-    badge.textContent = drafts.length ? `(${drafts.length})` : "";
-
-    if (!drafts.length) {
-      table.style.display = "none";
-      empty.style.display = "block";
-      return;
-    }
-    table.style.display = "table";
-    empty.style.display = "none";
-
-    const lang = RA9MANA_I18N.getLang();
-    tbody.innerHTML = drafts.map((d) => {
-      const typeLabel = RA9MANA_LIBRARY.typeLabelFor(d.type, lang);
-      const statusKey = { published: "admin.statusPublished", draft: "admin.statusDraft", pending: "admin.statusPendingReview", rejected: "admin.statusRejected" }[d.status] || d.status;
-      return `
-        <tr>
-          <td>${RA9MANA_LIBRARY.esc(d.title)}</td>
-          <td>${RA9MANA_LIBRARY.esc(typeLabel)}</td>
-          <td>${RA9MANA_LIBRARY.esc(d.year || "")}</td>
-          <td><span class="admin-status-pill ${RA9MANA_LIBRARY.esc(d.status)}">${RA9MANA_LIBRARY.esc(RA9MANA_I18N.t(statusKey) || d.status)}</span></td>
-          <td class="admin-row-actions">
-            <button type="button" data-remove="${RA9MANA_LIBRARY.esc(d.id)}" title="${RA9MANA_LIBRARY.esc(RA9MANA_I18N.t("admin.removeEntry") || "Remove")}">
-              <svg><use href="assets/icons/icons.svg#icon-trash"></use></svg>
-            </button>
-          </td>
-        </tr>`;
-    }).join("");
-
-    tbody.querySelectorAll("[data-remove]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const id = btn.getAttribute("data-remove");
-        RA9MANA_LIBRARY.removeDraft(id);
-        delete fileRegistry[id];
-        renderPending();
-      });
-    });
-  }
-
-  /* ---------------------------------------------------------
-     Export
-  --------------------------------------------------------- */
-  async function buildExportZip() {
-    const existing = await RA9MANA_LIBRARY.loadAll();
-    const drafts = RA9MANA_LIBRARY.getDrafts();
-
-    const merged = existing.slice();
-    drafts.forEach((d) => {
-      const clean = { ...d };
-      delete clean._fileNames;
-      const idx = merged.findIndex((m) => m.id === clean.id);
-      if (idx >= 0) merged[idx] = clean; else merged.push(clean);
-    });
-
-    const zip = new JSZip();
-    const booksFolder = zip.folder("books");
-    const coversFolder = zip.folder("covers");
-    const dataFolder = zip.folder("data");
-
-    drafts.forEach((d) => {
-      const files = fileRegistry[d.id];
-      if (!files) return;
-      if (files.pdf) booksFolder.file(files.pdf.name, files.pdf.file);
-      if (files.cover) coversFolder.file(files.cover.name, files.cover.file);
-      if (files.contributorPhoto) coversFolder.file(files.contributorPhoto.name, files.contributorPhoto.file);
-    });
-
-    dataFolder.file("library.json", JSON.stringify(merged, null, 2));
-
-    const readme = RA9MANA_I18N.t("admin.exportReadme") ||
-      "Copy the data/, books/ and covers/ folders into the project root (replacing data/library.json), then run: git add . && git commit -m \"Add new library references\" && git push";
-    zip.file("README.txt", readme);
-
-    return zip.generateAsync({ type: "blob" });
-  }
-
-  function downloadBlob(blob, filename) {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 2000);
-  }
-
-  function initExport() {
-    document.getElementById("export-btn").addEventListener("click", async (e) => {
-      const btn = e.currentTarget;
-      const drafts = RA9MANA_LIBRARY.getDrafts();
-      const missingFiles = drafts.some((d) => !fileRegistry[d.id]);
-      if (drafts.length && missingFiles) {
-        if (window.RA9MANA_showToast) {
-          window.RA9MANA_showToast(RA9MANA_I18N.t("admin.exportFilesLostWarning") || "Some files were only kept in memory for this session — re-add entries whose files are missing before exporting.");
+        if (!res.ok || (payload && payload.success === false)) {
+          const serverMsg = payload && (payload.message || payload.error);
+          throw new Error(serverMsg || `HTTP ${res.status}`);
         }
-      }
-      btn.disabled = true;
-      try {
-        const blob = await buildExportZip();
-        downloadBlob(blob, "ra9mana-library-export.zip");
-        if (window.RA9MANA_showToast) window.RA9MANA_showToast(RA9MANA_I18N.t("admin.exportReady") || "Export ready.");
-      } catch (err) {
-        if (window.RA9MANA_showToast) window.RA9MANA_showToast(RA9MANA_I18N.t("admin.exportFailed") || "Export failed.");
-      } finally {
-        btn.disabled = false;
-      }
-    });
 
-    document.getElementById("copy-git-commands").addEventListener("click", async () => {
-      const commands = 'git add .\ngit commit -m "Add new library references"\ngit push';
-      try {
-        await navigator.clipboard.writeText(commands);
-        if (window.RA9MANA_showToast) window.RA9MANA_showToast(RA9MANA_I18N.t("admin.copied") || "Copied.");
-      } catch (err) { /* clipboard unavailable */ }
+        document.getElementById("admin-form-success").classList.add("is-visible");
+        setTimeout(() => document.getElementById("admin-form-success").classList.remove("is-visible"), 4000);
+
+        if (window.RA9MANA_showToast) window.RA9MANA_showToast(RA9MANA_I18N.t("admin.addSuccess.toast") || "Reference submitted.");
+
+        form.reset();
+        resetDropzones();
+        document.getElementById("a-status").value = "published";
+      } catch (err) {
+        if (window.RA9MANA_showToast) {
+          window.RA9MANA_showToast(RA9MANA_I18N.t("submit.errors.submitFailed") || "Something went wrong. Please try again.");
+        }
+      } finally {
+        submitBtn.disabled = false;
+      }
     });
   }
 
   document.addEventListener("DOMContentLoaded", async () => {
-    initTabs();
     await RA9MANA_I18N.init();
     initForm();
-    initExport();
-    renderPending();
   });
 })();

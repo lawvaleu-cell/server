@@ -57,7 +57,7 @@
     <div class="container">
       <div class="eyebrow" data-i18n="admin.eyebrow">Admin local</div>
       <h1 data-i18n="admin.title">Admin local de la Bibliothèque juridique</h1>
-      <p class="lead" data-i18n="admin.subtitle">Préparez et organisez les fichiers de la bibliothèque avant de les pousser sur GitHub. Rien de tout ceci n'est envoyé à un serveur.</p>
+      <p class="lead" data-i18n="admin.subtitle">Ajoutez une référence directement à la bibliothèque. L'envoi est traité par le serveur RA9MANA DZ.</p>
     </div>
   </section>
 
@@ -65,13 +65,7 @@
     <div class="container">
       <div class="admin-banner">
         <svg><use href="assets/icons/icons.svg#icon-alert"></use></svg>
-        <span data-i18n="admin.warningNotBackend">Cette page fonctionne entièrement dans votre navigateur : elle ne modifie aucun fichier du dépôt automatiquement. Utilisez le bouton d'export pour générer les fichiers, puis copiez-les vous-même dans le projet.</span>
-      </div>
-
-      <div class="admin-tabs">
-        <button type="button" class="admin-tab is-active" data-tab="add" data-i18n="admin.tabAdd">Ajouter un référence</button>
-        <button type="button" class="admin-tab" data-tab="pending" data-i18n="admin.tabPending">En attente <span id="pending-count-badge"></span></button>
-        <button type="button" class="admin-tab" data-tab="export" data-i18n="admin.tabExport">Exporter</button>
+        <span data-i18n="admin.warningNotBackend">Les références ajoutées ici sont envoyées directement au serveur RA9MANA DZ, comme depuis la page « Contribuer ».</span>
       </div>
 
       <!-- ===================== ADD REFERENCE ===================== -->
@@ -79,8 +73,8 @@
         <div class="form-success" id="admin-form-success">
           <svg><use href="assets/icons/icons.svg#icon-check"></use></svg>
           <div>
-            <h4 data-i18n="admin.addSuccess.title">Référence ajoutée à la liste d'attente</h4>
-            <p data-i18n="admin.addSuccess.desc">Retrouvez-la dans l'onglet « En attente », puis exportez le tout une fois terminé.</p>
+            <h4 data-i18n="admin.addSuccess.title">Référence envoyée</h4>
+            <p data-i18n="admin.addSuccess.desc">La référence a été envoyée avec succès.</p>
           </div>
         </div>
 
@@ -252,56 +246,13 @@
           <div class="form-actions">
             <button class="btn btn-primary" type="submit">
               <svg><use href="assets/icons/icons.svg#icon-plus"></use></svg>
-              <span data-i18n="admin.addReferenceBtn">Ajouter à la liste d'attente</span>
+              <span data-i18n="admin.addReferenceBtn">Envoyer la référence</span>
             </button>
             <button class="btn btn-ghost" type="reset" id="admin-reset-btn">
               <span data-i18n="admin.resetForm">Vider le formulaire</span>
             </button>
           </div>
         </form>
-      </div>
-
-      <!-- ===================== PENDING LIST ===================== -->
-      <div class="admin-panel" id="panel-pending">
-        <div class="admin-table-wrap">
-          <table class="admin-table" id="pending-table">
-            <thead>
-              <tr>
-                <th data-i18n="admin.colTitle">Titre</th>
-                <th data-i18n="admin.colType">Type</th>
-                <th data-i18n="admin.colYear">Année</th>
-                <th data-i18n="admin.colStatus">Statut</th>
-                <th data-i18n="admin.colActions">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="pending-tbody"></tbody>
-          </table>
-          <div class="admin-empty" id="pending-empty" data-i18n="admin.pendingEmpty">Aucune référence en attente pour le moment. Ajoutez-en une depuis l'onglet précédent.</div>
-        </div>
-      </div>
-
-      <!-- ===================== EXPORT ===================== -->
-      <div class="admin-panel" id="panel-export">
-        <div class="export-panel">
-          <h3 style="font-family:var(--font-display); font-size:1.2rem; margin-bottom:8px" data-i18n="admin.exportTitle">Exporter la bibliothèque</h3>
-          <p class="form-section-desc" data-i18n="admin.exportDesc" style="margin-top:0">Génère un fichier .zip contenant library.json (fusionné avec les références existantes), ainsi que les fichiers PDF et couvertures, prêts à copier dans le projet.</p>
-          <button type="button" class="btn btn-primary" id="export-btn">
-            <svg><use href="assets/icons/icons.svg#icon-download"></use></svg>
-            <span data-i18n="admin.exportBtn">Export Library</span>
-          </button>
-
-          <ol class="export-steps">
-            <li data-i18n="admin.exportStep1">Décompressez le fichier téléchargé.</li>
-            <li data-i18n="admin.exportStep2">Copiez son contenu (data/, books/, covers/) dans le dossier du projet, en remplaçant data/library.json.</li>
-            <li data-i18n="admin.exportStep3">Exécutez les commandes ci-dessous puis poussez sur GitHub.</li>
-          </ol>
-          <div class="code-block">
-git add .
-git commit -m "Add new library references"
-git push
-            <button type="button" class="code-copy" id="copy-git-commands" data-i18n="admin.copyCommands">Copier</button>
-          </div>
-        </div>
       </div>
 
     </div>
@@ -318,7 +269,6 @@ git push
 
 <div class="toast" id="toast" aria-live="polite"><div class="toast-inner"></div></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="js/products.js"></script>
 <script src="js/locales.js"></script>
 <script src="js/i18n.js"></script>

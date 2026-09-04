@@ -173,21 +173,26 @@ def submit_reference():
             reference["id"] = new_id
             reference["status"] = "pending"
             reference["submitted_at"] = datetime.now(timezone.utc).isoformat()
-            reference["files"] = {"pdf": None, "cover": None}
+            # Flat schema only, per explicit instruction: "pdf" / "cover"
+            # top-level keys. No "files.pdf" / "files.cover" nesting is
+            # written — that shape has no confirmed use in real frontend
+            # code, so it is left out entirely rather than guessed at.
+            reference["pdf"] = None
+            reference["cover"] = None
 
             # Step 3: upload PDF, if any.
             if pdf_bytes is not None:
                 pdf_path = f"{config.BOOKS_DIR}/{new_id}.{pdf_ext}"
                 upload_file(pdf_path, pdf_bytes, f"Add pdf for {new_id}")
                 uploaded_paths.append(pdf_path)
-                reference["files"]["pdf"] = _public_path(pdf_path)
+                reference["pdf"] = _public_path(pdf_path)
 
             # Step 4: upload cover, if any.
             if cover_bytes is not None:
                 cover_path = f"{config.COVERS_DIR}/{new_id}.{cover_ext}"
                 upload_file(cover_path, cover_bytes, f"Add cover for {new_id}")
                 uploaded_paths.append(cover_path)
-                reference["files"]["cover"] = _public_path(cover_path)
+                reference["cover"] = _public_path(cover_path)
 
             # Step 5: update library.json (existing entries are preserved).
             append_reference_with_retry(reference)

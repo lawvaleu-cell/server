@@ -57,8 +57,8 @@ class SubmitReferenceTestCase(unittest.TestCase):
         self.assertTrue(body["success"])
 
         sent_reference = mock_append.call_args[0][0]
-        self.assertIsNone(sent_reference["files"]["pdf"])
-        self.assertIsNone(sent_reference["files"]["cover"])
+        self.assertIsNone(sent_reference["pdf"])
+        self.assertIsNone(sent_reference["cover"])
 
     # --- 3 & 4. PDF goes to books/, cover goes to covers/ ---
     @patch("app.routes.append_reference_with_retry")
@@ -100,7 +100,30 @@ class SubmitReferenceTestCase(unittest.TestCase):
         sent_reference = mock_append.call_args[0][0]
         self.assertEqual(sent_reference["id"], "REF-2026-00002")
         self.assertEqual(sent_reference["status"], "pending")
-        self.assertEqual(sent_reference["files"]["pdf"], "books/REF-2026-00002.pdf")
+        self.assertEqual(sent_reference["pdf"], "books/REF-2026-00002.pdf")
+        self.assertNotIn("files", sent_reference)
+
+    # --- Final ref.pdf value: flat "books/<id>.pdf", relative by default ---
+    @patch("app.routes.append_reference_with_retry")
+    @patch("app.routes.upload_file")
+    @patch("app.routes.read_library", return_value=([], None))
+    def test_ref_pdf_is_flat_relative_books_path(self, mock_read, mock_upload, mock_append):
+        mock_append.side_effect = lambda ref: ref
+
+        data = {
+            "title": "Test reference",
+            "pdf": (io.BytesIO(PDF_BYTES), "doc.pdf", "application/pdf"),
+        }
+        resp = self.client.post(
+            "/api/submit-reference", data=data, content_type="multipart/form-data"
+        )
+        self.assertEqual(resp.status_code, 200)
+
+        sent_reference = mock_append.call_args[0][0]
+        # Exact contract: flat top-level "pdf" key, "books/<id>.pdf" shape,
+        # no PUBLIC_BASE_URL prefix unless explicitly configured.
+        self.assertRegex(sent_reference["pdf"], r"^books/REF-\d{4}-\d{5}\.pdf$")
+        self.assertNotIn("files", sent_reference)
 
     # --- 8. Old references are never dropped (exercised at the github module level) ---
     def test_append_preserves_existing_entries(self):

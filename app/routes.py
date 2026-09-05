@@ -29,7 +29,28 @@ _submit_lock = threading.Lock()
 _PDF_MAGIC = b"%PDF-"
 _JPEG_MAGIC = b"\xff\xd8\xff"
 _PNG_MAGIC = b"\x89PNG\r\n\x1a\n"
+if photo_storage is not None and photo_storage.filename:
+    photo_bytes = photo_storage.read()
 
+    if photo_bytes:
+        photo_ext = Path(photo_storage.filename).suffix.lower().lstrip(".")
+
+        allowed_photo_exts = {"jpg", "jpeg", "png", "webp"}
+
+        if photo_ext not in allowed_photo_exts:
+            raise ValueError("Unsupported contributor photo format")
+
+        photo_path = f"contributors/{new_id}.{photo_ext}"
+
+        upload_file(
+            photo_path,
+            photo_bytes,
+            f"Add contributor photo for {new_id}"
+        )
+
+        uploaded_paths.append(photo_path)
+
+        reference["contributor"]["photo"] = _public_path(photo_path)
 
 def _ext(filename):
     if not filename or "." not in filename:

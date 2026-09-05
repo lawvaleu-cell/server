@@ -170,6 +170,43 @@ def submit_reference():
             new_id = _generate_id(existing_library)
 
             reference = dict(form_data)
+
+# Build contributor object from submitted form fields
+reference["contributor"] = {
+    "name": form_data.get("contributorName", "").strip(),
+    "bio": form_data.get("contributorBio", "").strip(),
+    "showName": form_data.get("showName") == "on",
+    "showPhoto": form_data.get("showPhoto") == "on",
+    "showBio": form_data.get("showBio") == "on",
+    "showLinks": form_data.get("showLinks") == "on",
+    "links": {
+        "website": form_data.get("linkWebsite", "").strip(),
+        "linkedin": form_data.get("linkLinkedin", "").strip(),
+        "facebook": form_data.get("linkFacebook", "").strip(),
+        "instagram": form_data.get("linkInstagram", "").strip(),
+        "x": form_data.get("linkX", "").strip(),
+        "github": form_data.get("linkGithub", "").strip()
+    },
+    "photo": ""
+}
+
+# Remove old flat contributor fields
+for key in (
+    "contributorName",
+    "contributorEmail",
+    "contributorBio",
+    "linkWebsite",
+    "linkLinkedin",
+    "linkFacebook",
+    "linkInstagram",
+    "linkX",
+    "linkGithub",
+    "showName",
+    "showPhoto",
+    "showBio",
+    "showLinks"
+):
+    reference.pop(key, None)
             reference["id"] = new_id
             reference["status"] = "pending"
             reference["submitted_at"] = datetime.now(timezone.utc).isoformat()

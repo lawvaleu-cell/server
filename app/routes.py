@@ -134,6 +134,7 @@ def submit_reference():
     # --- Step 1: validate uploads up front, before any GitHub call. ---
     pdf_storage = request.files.get("pdf")
     cover_storage = request.files.get("cover")
+    photo_storage = request.files.get("contributorPhoto")
 
     pdf_bytes = pdf_ext = None
     cover_bytes = cover_ext = None
